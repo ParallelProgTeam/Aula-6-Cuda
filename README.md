@@ -3,6 +3,7 @@
 
 **CUDA** é uma plataforma de computação paralela e modelo de programação da NVIDIA para a programação de propósito geral usando GPUs da marca. Programas CUDA são heterogêneos: parte do programa é executado na CPU, enquanto trechos computacionalmente caros executam na GPU. 
 ![A figura ilustra a importância de explorarmos ambas as arquiteturas de forma combinada](./images/coprocessing.png)
+
 (tomado de http:homepages.dcc.ufmg.br/~fernando/classes/gpuOpt/slides/slides1.pdf)
 
 ### Primeiro programa: Hello World! (serial)
@@ -76,16 +77,50 @@ O runtime CUDA fornece diversas funções e que permitem definir a quantidade de
   - Qual é a compute capability (capacidade de computação) da sua GPU?
   - Quais são as dimensões máximas do bloco para GPUs com a capacidade de computação da placa Tesla K40?
   - Suponha que você esteja  executando numa grid e um bloco unidimensionais. Se a dimensão máxima da grid do hardware for 65535 e a dimensão máxima do bloco for 512, qual é o número máximo de threads que podem ser lançados na GPU?
-  - Em que condições um programador pode escolher não querer lançar o número máximo de threads?
-  - O que pode limitar um programa de iniciar o número máximo de threads em uma GPU?
   - O que é memória compartilhada?
   - O que é memória global?
-  - O que é memória constante?
-  - A precisão dupla é suportada em GPUs com capacidade de computação de 1.3?
-  
+  - Em que condições um programador pode escolher não querer lançar o número máximo de threads?
+  - O que pode limitar um programa de iniciar o número máximo de threads em uma GPU?
 
+## Problema 1 - Soma de vetores
+Na aula passada resolvemos o problema da soma de vetores usando um bloco só. Nessa aula iremos escrever um programa que resolve esse problema para N > o tamanho de um bloco. 
+[Clique aqui para entender como configurar sua execução](./images/Lab_Intro_GPU.pdf)
 
-## Problema 1 - SAXPY
+É altamente recomendável incluir no seu código o seguinte trecho para verificação de erros:
+```cpp
+#ifndef checkCudaErrors
+static void HandleError( cudaError_t err, const char *file, int line ) {
+    if (err != cudaSuccess) {
+        printf( "%s in %s at line %d\n", cudaGetErrorString( err ),
+                file, line );
+        exit( EXIT_FAILURE );
+    }
+}
+#define checkCudaErrors( err ) (HandleError( err, __FILE__, __LINE__ ))
+#endif
+
+Exemplo:
+checkCudaErrors(cudaMalloc((void**)&d_A, bytes_N));
+```
+enquanto o seguinte código pode ser utilizado para medir o tempo de execução:
+```cpp
+    cudaEvent_t     start, stop;
+    HANDLE_ERROR( cudaEventCreate( &start ) );
+    HANDLE_ERROR( cudaEventCreate( &stop ) );
+    HANDLE_ERROR( cudaEventRecord( start, 0 ) );
+    kernel<<<grids,threads>>>(args);//alocação, chamada ao kernel, copia de dados
+    HANDLE_ERROR( cudaEventRecord( stop, 0 ) );
+    HANDLE_ERROR( cudaEventSynchronize( stop ) );
+    float   elapsedTime;
+    HANDLE_ERROR( cudaEventElapsedTime( &elapsedTime,
+                                        start, stop ) );
+    printf( "Time to generate:  %3.1f ms\n", elapsedTime );
+
+    HANDLE_ERROR( cudaEventDestroy( start ) );
+    HANDLE_ERROR( cudaEventDestroy( stop ) );
+```
+
+## Problema 2 - 
 
 [Para ver a descrição do problema clique aqui](./saxpy)
 
