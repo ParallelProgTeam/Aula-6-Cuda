@@ -42,11 +42,11 @@ Agora troque a linha ```mykernel<<<1,1>>>(); ``` por ```mykernel<<<1,8>>>();```
 Qual é a saída da execução dessa vez? 
 Exatamente 8 vezes o texto "Hello World!", uma vez por cada thread executada na GPU.
 
-A programação CUDA segue um modelo de execução chamado de SIMT (Single Instruction, Multiple Thread). No lugar do modelo SIMD descrito na taxonomia de Flynn em que uma thread de controle processaria vários elementos de dado (como nos processadores vetoriais), em SIMT grupos de threads executam a mesma instrução simultâneamente sobre diferentes dados. Em CUDA, esses grupos são chamados de *warps* e até agora são formados estritamente por 32 threads. 
+A programação CUDA segue um modelo de execução chamado de **SIMT (Single Instruction, Multiple Thread)**. No lugar do modelo **SIMD** descrito na taxonomia de Flynn, em que uma thread de controle processa vários elementos de dado (como nos processadores vetoriais), em SIMT grupos de threads executam a mesma instrução simultâneamente sobre diferentes dados. Em CUDA, esses grupos são chamados de *warps* e até agora são formados estritamente por 32 threads. 
 
-Threads podem ser distinguidas por meio de sua id de thread, que pode ser acessada através da variável threadIdx (uma struct com os campos x, y e z). Por exemplo, no exemplo anterior criamos um array unidimensional de threads, o id de uma thread nesse caso é threadIDx.x. 
+Threads podem ser distinguidas por meio de sua id de thread, que pode ser acessada através da variável threadIdx (uma struct *dim3* com os campos x, y e z). Por exemplo, no exemplo anterior criamos um array unidimensional de threads, o id de uma thread nesse caso é threadIDx.x. 
 
-Exemplo de https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html:
+Exemplo de https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html que mostra um cálculo usando matrizes bidimensionais. Nesse caso, o id de uma thread com índices threadIdx.x, threadIdx.y pode ser calculado como ```id = threadIdx.x + threadIdx.y * threadsPerBlock```.
 ```cpp
 // Kernel definition
 __global__ void MatAdd(float A[N][N], float B[N][N],
@@ -68,6 +68,18 @@ int main()
 }
 ```
 O runtime CUDA fornece diversas funções e que permitem definir a quantidade de threads, criar e utilizar mecanismos de sincronização, e várias outras funcionalidades.
+
+### Exercício: Execute o programa deviceQuery no diretório Samples do NVIDIA CUDA Toolkit em /usr/local/cuda/cuda9-installed-samples/NVIDIA_CUDA-9.0_Samples/1_Utilities/
+- Pesquise e responda (você pode consultar também https://en.wikipedia.org/wiki/CUDA, https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html): 
+  - Qual é a compute capability (capacidade de computação) da sua GPU?
+  - Quais são as dimensões máximas do bloco para GPUs com a capacidade de computação da placa Tesla K40?
+  - Suponha que você esteja  executando numa grid e um bloco unidimensionais. Se a dimensão máxima da grid do hardware for 65535 e a dimensão máxima do bloco for 512, qual é o número máximo de threads que podem ser lançados na GPU?
+  - Em que condições um programador pode escolher não querer lançar o número máximo de threads?
+  - O que pode limitar um programa de iniciar o número máximo de threads em uma GPU?
+  - O que é memória compartilhada?
+  - O que é memória global?
+  - O que é memória constante?
+  - A precisão dupla é suportada em GPUs com capacidade de computação de 1.3?
 
 ## Problema 1 - SAXPY
 
