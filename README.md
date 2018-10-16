@@ -1,5 +1,6 @@
 ## Laboratório de Introdução à Programação Paralela. 
 ### Introdução à Programação em CUDA.
+Leitura sugerida: https://engineering.purdue.edu/~smidkiff/ece563/NVidiaGPUTeachingToolkit/Mod1/3rd-Edition-Chapter01-introduction.pdf
 
 **CUDA** é uma plataforma de computação paralela e modelo de programação da NVIDIA para a programação de propósito geral usando GPUs da marca. Programas CUDA são heterogêneos: parte do programa é executado na CPU, enquanto trechos computacionalmente caros executam na GPU. 
 ![A figura ilustra a importância de explorarmos ambas as arquiteturas de forma combinada](./images/coprocessing.png)
