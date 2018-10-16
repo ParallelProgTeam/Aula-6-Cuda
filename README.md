@@ -120,9 +120,9 @@ enquanto o seguinte código pode ser utilizado para medir o tempo de execução:
     HANDLE_ERROR( cudaEventDestroy( stop ) );
 ```
 
-## Problema 2 - 
+## Problema 2 - Tempo e verificação de erros
 
-[Para ver a descrição do problema clique aqui](./saxpy)
+[Para ver a descrição do problema clique aqui](./float)
 
 Controle de divergências.
 Já que grupos de 32 threads (um warp) executam a mesma instrução, como são tratadas as divergências em CUDA?
