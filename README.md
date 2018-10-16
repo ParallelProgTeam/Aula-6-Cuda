@@ -122,7 +122,7 @@ enquanto o seguinte código pode ser utilizado para medir o tempo de execução:
 
 ## Problema 2 - Tempo e verificação de erros
 
-[Para ver a descrição do problema clique aqui](./float)
+[Para ver a descrição do problema clique aqui](./flops)
 
 Controle de divergências.
 Já que grupos de 32 threads (um warp) executam a mesma instrução, como são tratadas as divergências em CUDA?
