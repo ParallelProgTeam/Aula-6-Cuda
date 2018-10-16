@@ -20,7 +20,7 @@ $ nvcc main.cu -o output
 $ ./output
 ```
 
-###Primeiro programa: Hello World! (paralelo!)
+### Primeiro programa: Hello World! (paralelo!)
 As funções que são lançadas na CPU (chamado de *host* na terminologia CUDA) para execução na GPU (ou *device*) são chamadas de *kernels* e se declaram como **\_\_global\_\_**. O número de threads CUDA que executarão o kernel em uma determinada chamada é especificado usando 
 a sintaxe de configuração da execução : <<<...>>>
 
@@ -44,7 +44,29 @@ Exatamente 8 vezes o texto "Hello World!", uma vez por cada thread executada na 
 
 A programação CUDA segue um modelo de execução chamado de SIMT (Single Instruction, Multiple Thread). No lugar do modelo SIMD descrito na taxonomia de Flynn em que uma thread de controle processaria vários elementos de dado (como nos processadores vetoriais), em SIMT grupos de threads executam a mesma instrução simultâneamente sobre diferentes dados. Em CUDA, esses grupos são chamados de *warps* e até agora são formados estritamente por 32 threads. 
 
-Threads podem ser distinguidas por meio de sua id de thread, que pode ser acessada através da variável threadIdx. 
+Threads podem ser distinguidas por meio de sua id de thread, que pode ser acessada através da variável threadIdx (uma struct com os campos x, y e z). Por exemplo, no exemplo anterior criamos um array unidimensional de threads, o id de uma thread nesse caso é threadIDx.x. 
+
+Exemplo de https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html:
+```cpp
+// Kernel definition
+__global__ void MatAdd(float A[N][N], float B[N][N],
+                       float C[N][N])
+{
+    int i = threadIdx.x;
+    int j = threadIdx.y;
+    C[i][j] = A[i][j] + B[i][j];
+}
+
+int main()
+{
+    ...
+    // Kernel invocation with one block of N * N * 1 threads
+    int numBlocks = 1;
+    dim3 threadsPerBlock(N, N);
+    MatAdd<<<numBlocks, threadsPerBlock>>>(A, B, C);
+    ...
+}
+```
 O runtime CUDA fornece diversas funções e que permitem definir a quantidade de threads, criar e utilizar mecanismos de sincronização, e várias outras funcionalidades.
 
 ## Problema 1 - SAXPY
@@ -54,7 +76,5 @@ O runtime CUDA fornece diversas funções e que permitem definir a quantidade de
 Controle de divergências.
 Já que grupos de 32 threads (um warp) executam a mesma instrução, como são tratadas as divergências em CUDA?
 Isto pode danificar o desempenho, a programação, no possível, deve levar em conta o nível de warps para maximizar o desempenho. 
-[https://devblogs.nvidia.com/using-cuda-warp-level-primitives/]
+https://devblogs.nvidia.com/using-cuda-warp-level-primitives/
 
-
-Mais informação: https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html
