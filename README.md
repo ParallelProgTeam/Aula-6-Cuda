@@ -106,27 +106,30 @@ checkCudaErrors(cudaMalloc((void**)&d_A, bytes_N));
 enquanto o seguinte código pode ser utilizado para medir o tempo de execução:
 ```cpp
     cudaEvent_t     start, stop;
-    HANDLE_ERROR( cudaEventCreate( &start ) );
-    HANDLE_ERROR( cudaEventCreate( &stop ) );
-    HANDLE_ERROR( cudaEventRecord( start, 0 ) );
+    checkCudaErrors( cudaEventCreate( &start ) );
+    checkCudaErrors( cudaEventCreate( &stop ) );
+    checkCudaErrors( cudaEventRecord( start, 0 ) );
     kernel<<<grids,threads>>>(args);//alocação, chamada ao kernel, copia de dados
-    HANDLE_ERROR( cudaEventRecord( stop, 0 ) );
-    HANDLE_ERROR( cudaEventSynchronize( stop ) );
+    checkCudaErrors( cudaEventRecord( stop, 0 ) );
+    checkCudaErrors( cudaEventSynchronize( stop ) );
     float   elapsedTime;
-    HANDLE_ERROR( cudaEventElapsedTime( &elapsedTime,
-                                        start, stop ) );
+    checkCudaErrors( cudaEventElapsedTime( &elapsedTime, start, stop ) );
     printf( "Time to generate:  %3.1f ms\n", elapsedTime );
-
-    HANDLE_ERROR( cudaEventDestroy( start ) );
-    HANDLE_ERROR( cudaEventDestroy( stop ) );
+    checkCudaErrors( cudaEventDestroy( start ) );
+    checkCudaErrors( cudaEventDestroy( stop ) );
 ```
 
 ## Problema 2 - Tempo e verificação de erros
 
 [Para ver a descrição do problema clique aqui](./flops)
 
-Controle de divergências.
+## Controle de divergências.
 Já que grupos de 32 threads (um warp) executam a mesma instrução, como são tratadas as divergências em CUDA?
 Isto pode danificar o desempenho, a programação, no possível, deve levar em conta o nível de warps para maximizar o desempenho. 
 https://devblogs.nvidia.com/using-cuda-warp-level-primitives/
+
+## Histogramas
+Histogramas permitem representar graficamente em colunas um conjunto de dados dividido em clases, onde cada coluna representa uma clase e a altura da coluna representa a quantidade ou frequência com que a classe ocorre no conjunto de dados (veja mais em https://pt.wikipedia.org/wiki/Histograma).  
+
+
 
