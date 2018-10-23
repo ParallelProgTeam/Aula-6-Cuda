@@ -129,7 +129,7 @@ Isto pode danificar o desempenho, a programação, no possível, deve levar em c
 https://devblogs.nvidia.com/using-cuda-warp-level-primitives/
 
 ## Histogramas
-Histogramas permitem representar graficamente em colunas um conjunto de dados dividido em clases, onde cada coluna representa uma clase e a altura da coluna representa a quantidade ou frequência com que a classe ocorre no conjunto de dados (veja mais em https://pt.wikipedia.org/wiki/Histograma).  
+Histogramas permitem representar graficamente em colunas um conjunto de dados dividido em clases, onde cada coluna representa uma clase e a altura da coluna representa a quantidade ou frequência com que a classe ocorre no conjunto de dados (veja mais em https://pt.wikipedia.org/wiki/Histograma).  [Para ver a descrição do problema, clique aqui](./histogramas)
 
 
 
