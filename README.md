@@ -42,10 +42,6 @@ __global__ void mykernel(void) {
 
 Qual é a saída da execução? 
 
-Agora troque a linha ```mykernel<<<1,1>>>(); ``` por ```mykernel<<<1,8>>>();```
-Qual é a saída da execução dessa vez? 
-Exatamente 8 vezes o texto "Hello World!", uma vez por cada thread executada na GPU.
-
 A programação CUDA segue um modelo de execução chamado de **SIMT (Single Instruction, Multiple Thread)**. No lugar do modelo **SIMD** descrito na taxonomia de Flynn, em que uma thread de controle processa vários elementos de dado (como nos processadores vetoriais), em SIMT grupos de threads executam a mesma instrução simultâneamente sobre diferentes dados. Em CUDA, esses grupos são chamados de *warps* e até agora são formados estritamente por 32 threads. 
 
 Threads podem ser distinguidas por meio de sua id de thread, que pode ser acessada através da variável threadIdx (uma struct *dim3* com os campos x, y e z). Por exemplo, no exemplo anterior criamos um array unidimensional de threads, o id de uma thread nesse caso é threadIDx.x. 
