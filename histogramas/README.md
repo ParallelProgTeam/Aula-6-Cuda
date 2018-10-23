@@ -22,6 +22,6 @@ Algoritmo paralelo:
 Uma opção: use atomics
 ```C
 __global__ void mykernel(int *addr) {
-  atomicAdd_system(addr, 10);       // only available on devices with compute capability 6.x
+  atomicAdd(addr, 10);       // only available on devices with compute capability 6.x
 }
 ```
