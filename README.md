@@ -118,6 +118,10 @@ enquanto o seguinte código pode ser utilizado para medir o tempo de execução:
     checkCudaErrors( cudaEventDestroy( start ) );
     checkCudaErrors( cudaEventDestroy( stop ) );
 ```
+## Padrão de projeto: Stencil
+## Capítulo de livro: http://prerequisite.hwu-server2.crhc.illinois.edu/Shared%20Documents/Module%2008%20-%20Parallel%20Computation%20Patterns%20(Stencil)/EBook%20Chapters/3rd-Edition-Chapter07-convolution.pdf
+## Video aulas: http://syllabus.gputeachingkit.com/
+Veja a descrição do problema 2 aqui: https://www.epcc.ed.ac.uk/online-training/learnCUDA
 
 ## Problema 2 - Tempo e verificação de erros
 
