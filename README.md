@@ -123,6 +123,8 @@ enquanto o seguinte código pode ser utilizado para medir o tempo de execução:
 - Video aulas: http://syllabus.gputeachingkit.com/
 - Veja a descrição do problema 2 aqui: https://www.epcc.ed.ac.uk/online-training/learnCUDA
 ![stencil](./images/stencil.png)
+
+http://rcg.group.shef.ac.uk/courses/cuda/downloads/learnCUDApracticalsheffield.pdf
 ## Problema 2 - Tempo e verificação de erros
 
 [Para ver a descrição do problema clique aqui](./flops)
